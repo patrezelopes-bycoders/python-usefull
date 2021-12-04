@@ -1,0 +1,10 @@
+{
+    "name": "root/app",
+    "authors": [
+        {
+            "name": "Patreze",
+            "email": "patreze.lopes@bycoders.com.br"
+        }
+    ],
+    "require": {}
+}
