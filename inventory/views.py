@@ -2,9 +2,11 @@ import asyncio
 from datetime import datetime, timedelta
 
 from asgiref.sync import sync_to_async, async_to_sync
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from rest_framework.authentication import CSRFCheck
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-
 from . import async_serializer
 from .models import Purchase, Sale, Product
 from rest_framework import viewsets
@@ -35,16 +37,14 @@ class SyncAsync(ViewSet):
         return sale, purchase
 
     def async_get(self, request):
-        star_time = datetime.now().timestamp()
         sale, purchase = self.async_to_sync_discount()
-        response_time = datetime.now().timestamp() - star_time
-        return Response(dict(sale=sale, purchase=purchase, time=response_time))
+        return Response(dict(sale=sale, purchase=purchase))
 
     def sync_get(self, request):
-        star_time = datetime.now().timestamp()
-        product = Product.objects.all().order_by('?')[0]
-        sales = Sale.objects.filter(product=product)
-        purchases = Purchase.objects.filter(product=product)
-        sales, purchases = discount(sales, purchases)
-        response_time = datetime.now().timestamp() - star_time
-        return Response(dict(sale=sales, purchase=purchases, time=response_time))
+        sales, purchases = discount()
+        return Response(dict(sale=sales, purchase=purchases))
+
+    @method_decorator(cache_page(60))
+    def cached_view(self, request):
+        sale, purchase = self.async_to_sync_discount()
+        return Response(dict(sale=sale, purchase=purchase))

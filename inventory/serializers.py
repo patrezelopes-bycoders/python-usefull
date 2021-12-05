@@ -4,11 +4,6 @@ from inventory.models import Purchase, Sale, Client, Product, Provider
 from rest_framework import serializers
 
 
-
-
-
-
-
 class PurchaseSerializer(serializers.HyperlinkedModelSerializer):
     provider = SerializerMethodField()
     product = SerializerMethodField()
