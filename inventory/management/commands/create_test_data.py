@@ -12,10 +12,10 @@ class Command(BaseCommand):
 
     def create_all(self):
         self.create_random_product(1000)
-        self.create_random_client(100)
+        self.create_random_client(1000000)
         self.create_random_provider(100)
-        self.create_random_purchase(10000)
-        self.create_random_sale(10000)
+        self.create_random_purchase(100000000)
+        self.create_random_sale(100000000)
         print("created")
 
     def add_arguments(self, parser):

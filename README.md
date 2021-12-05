@@ -1,3 +1,8 @@
+# populating test database
+```
+python manage.py create_test_data --all
+```
+
 # endpoints
 
 ```
