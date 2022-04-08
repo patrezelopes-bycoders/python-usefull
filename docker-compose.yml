@@ -20,7 +20,8 @@ services:
     build: ""
     command: >
       sh -c "python manage.py migrate
-            python manage.py runserver 0.0.0.0:8000"
+            python manage.py runserver 0.0.0.0:8000
+            python manage.py create_test_data --all"
     volumes:
       - .:/code
     ports:
@@ -44,7 +45,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASS}
 
     ports:
-      - 5433:5432
+      - 5434:5432
 
     volumes:
       - postgres_data:/var/lib/postgresql/data/
